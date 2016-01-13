@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/tschifftner/ansible-role-n98-magerun.svg)](https://travis-ci.org/tschifftner/ansible-role-n98-magerun)
 
-Installs n98-magerun/n98-magerun2 on Debian/Ubuntu linux servers.
+Installs [n98-magerun](https://github.com/netz98/n98-magerun) / [n98-magerun2](https://github.com/netz98/n98-magerun2) on Debian/Ubuntu linux servers.
+
+The n98 magerun cli tools provides some handy tools to work with Magento from command line.
 
 ## Requirements
 
@@ -30,6 +32,34 @@ n98_magerun_files:
 
 Checksum is not required but highly recommended for security reasons! 
 
+## n98-magerun plugins
+
+Plugins can be installed globally as well. Be careful who you trust!
+
+```
+n98_magerun_plugin_repositories:
+  - repo: 'https://github.com/cmuench/cmuench-magerun-addons.git'
+    dest: 'cmuench.magerun-addons'
+
+  - repo: 'https://github.com/peterjaap/magerun-addons.git'
+    dest: 'peterjaap.magerun-addons'
+
+  - repo: 'https://github.com/aleron75/Webgriffe_Golive.git'
+    dest: 'aleron75.Webgriffe_Golive'
+
+  - repo: 'https://github.com/kalenjordan/magerun-addons.git'
+    dest: 'kalenjordan.magerun-addons'
+
+  - repo: 'https://github.com/AOEpeople/mpmd.git'
+    dest: 'AOEpeople.mpmd'
+
+  - repo: 'https://github.com/fruitcakestudio/magerun-modman.git'
+    dest: 'fruitcakestudio.magerun-modman'
+
+  - repo: 'https://github.com/tschifftner/magerun-addons.git'
+    dest: 'tschifftner.magerun-addons'
+```
+
 ## Dependencies
 
 None.
@@ -37,21 +67,19 @@ None.
 ## Installation
 
 ```
-$ ansible-galaxy install tschifftner.composer
+$ ansible-galaxy install tschifftner.n98-magerun
 ```
 
 ## Example Playbook
 
     - hosts: server
       roles:
-        - { role: tschifftner.composer }
+        - { role: tschifftner.n98-magerun }
 
 ## Supported OS
 ## Supported OS
 Ansible          | Debian Jessie    | Ubuntu 14.04    | Ubuntu 12.04
 :--------------: | :--------------: | :-------------: | :-------------: 
-1.8              | Yes              | Yes             | Yes
-1.9              | Yes              | Yes             | Yes
 2.0              | Yes              | Yes             | Yes
 
 

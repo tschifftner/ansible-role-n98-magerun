@@ -3,4 +3,4 @@
   remote_user: root
 
   roles:
-    - ansible-role-composer
+    - ansible-role-n98-magerun

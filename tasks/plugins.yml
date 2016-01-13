@@ -1,0 +1,19 @@
+---
+- name: Ensure git is installed
+  apt:
+    pkg: git
+    state: present
+
+- name: Ensure modules directory exists
+  file:
+    path: '{{ n98_magerun_plugin_dir }}'
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Install plugins
+  git:
+    repo: '{{ item.repo }}'
+    dest: '{{ n98_magerun_plugin_dir }}/{{ item.dest }}'
+  with_items: n98_magerun_plugin_repositories
