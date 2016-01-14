@@ -21,6 +21,7 @@ n98_magerun_selfupdate_specialtime: 'weekly'
 n98_magerun_plugin_repositories: []
 #  - repo: 'https://github.com/cmuench/cmuench-magerun-addons.git'
 #    dest: 'cmuench.magerun-addons'
+#    version: 'HEAD'
 #
 #  - repo: 'https://github.com/peterjaap/magerun-addons.git'
 #    dest: 'peterjaap.magerun-addons'

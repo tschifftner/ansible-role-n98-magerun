@@ -16,4 +16,5 @@
   git:
     repo: '{{ item.repo }}'
     dest: '{{ n98_magerun_plugin_dir }}/{{ item.dest }}'
+    version: '{{ item.version | default(omit) }}'
   with_items: n98_magerun_plugin_repositories
