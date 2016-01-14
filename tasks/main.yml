@@ -1,5 +1,7 @@
 ---
-- include: composer.yml
+- name: Install n98-magerun
+  include: setup.yml
 
-- include: plugins.yml
+- name: Install n98-magerun plugins
+  include: plugins.yml
   when: n98_magerun_install_plugins == true
