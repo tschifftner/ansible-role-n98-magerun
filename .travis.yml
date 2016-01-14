@@ -5,7 +5,8 @@ sudo: required
 dist: trusty
 
 env:
-  - SITE=test.yml ANSIBLE_VERSION=2.0.0.1
+  - SITE=test-version1.yml ANSIBLE_VERSION=2.0.0.1 MAGERUN='n98-magerun'
+  - SITE=test-version2.yml ANSIBLE_VERSION=2.0.0.1 MAGERUN='n98-magerun2'
 
 before_install:
   - sudo apt-get update -qq
@@ -41,15 +42,9 @@ script:
 
   # Make sure n98-magerun is installed.
   - >
-    n98-magerun --version
-    && (echo 'n98-magerun is installed' && exit 0)
-    || (echo 'n98-magerun is not installed' && exit 1)
-
-  # Make sure n98-magerun is installed.
-  - >
-    n98-magerun2 --version
-    && (echo 'n98-magerun2 is installed' && exit 0)
-    || (echo 'n98-magerun2 is not installed' && exit 1)
+    $MAGERUN --version
+    && (echo "$MAGERUN is installed" && exit 0)
+    || (echo "$MAGERUN is not installed" && exit 1)
 
 notifications:
   slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6

@@ -14,11 +14,5 @@
         install: true
         dest: '/usr/local/bin/n98-magerun2'
 
-#      - name: 'n98-magerun for Magento 1'
-#        url: 'https://files.magerun.net/n98-magerun-1.97.9.phar'
-#        checksum: 'md5:0e581d0b6586a06fc0740b16cb620dda'
-#        install: true
-#        dest: '/usr/local/bin/n98-magerun'
-
   roles:
     - ansible-role-n98-magerun
