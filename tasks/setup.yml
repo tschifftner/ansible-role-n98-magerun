@@ -4,7 +4,7 @@
 #    path: '{{ item.dest | dirname }}'
 #    state: directory
 #  when: item.install is not defined or (item.install is defined and item.install == true)
-#  with_items: n98_magerun_files
+#  with_items: '{{ n98_magerun_files }}'
 
 - name: Download and install n98-magerun
   get_url:
@@ -12,16 +12,16 @@
     checksum: '{{ item.checksum | default(omit) }}'
     dest: '{{ item.dest }}'
   when: item.install is not defined or (item.install is defined and item.install == true)
-  with_items: n98_magerun_files
+  with_items: '{{ n98_magerun_files }}'
 
 - name: 'Set n98-magerun chmod'
   file:
     path: '{{ item.dest }}'
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   when: item.install is not defined or (item.install is defined and item.install == true)
-  with_items: n98_magerun_files
+  with_items: '{{ n98_magerun_files }}'
 
 - name: Install self-update cronjob
   cron:
@@ -30,5 +30,6 @@
     job: '{{ item.dest }} self-update >> /var/log/{{ item.dest | basename }}.log'
     user: root
     state: present
+    cron_file: 'n98_magerun'
   when: item.selfupdate is not defined or (item.selfupdate is defined and item.selfupdate == true)
-  with_items: n98_magerun_files
+  with_items: '{{ n98_magerun_files }}'
