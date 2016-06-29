@@ -40,3 +40,6 @@ n98_magerun_plugin_repositories: []
 #
 #  - repo: 'https://github.com/tschifftner/magerun-addons.git'
 #    dest: 'tschifftner.magerun-addons'
+#
+#  - repo: 'https://github.com/Hypernode/hypernode-magerun.git'
+#    dest: 'hypernode.hypernode-magerun'
