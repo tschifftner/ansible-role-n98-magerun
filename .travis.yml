@@ -1,12 +1,16 @@
 ---
-language: python
-python: "2.7"
 sudo: required
 dist: trusty
 
+language: python
+python: "2.7"
+
 env:
-  - SITE=test-version1.yml ANSIBLE_VERSION=2.0.0.1 MAGERUN='n98-magerun'
-  - SITE=test-version2.yml ANSIBLE_VERSION=2.0.0.1 MAGERUN='n98-magerun2'
+  - SITE=test-version1.yml ANSIBLE_VERSION=latest MAGERUN='n98-magerun'
+  - SITE=test-version1.yml ANSIBLE_VERSION=2.1.0.0 MAGERUN='n98-magerun'
+
+  - SITE=test-version2.yml ANSIBLE_VERSION=latest MAGERUN='n98-magerun2'
+  - SITE=test-version2.yml ANSIBLE_VERSION=2.1.0.0 MAGERUN='n98-magerun2'
 
 before_install:
   - sudo apt-get update -qq
@@ -15,7 +19,7 @@ before_install:
 
 install:
   # Install Ansible.
-  - pip install ansible==$ANSIBLE_VERSION
+  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install --no-binary ansible ansible; else pip install --no-binary ansible ansible==$ANSIBLE_VERSION; fi
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
@@ -45,6 +49,11 @@ script:
     $MAGERUN --version
     && (echo "$MAGERUN is installed" && exit 0)
     || (echo "$MAGERUN is not installed" && exit 1)
+
+after_failure:
+  - ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
+  - $MAGERUN --version
+  - ansible --version
 
 notifications:
   slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
