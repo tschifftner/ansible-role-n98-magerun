@@ -35,8 +35,8 @@ n98_magerun_plugin_repositories: []
 #  - repo: 'https://github.com/AOEpeople/mpmd.git'
 #    dest: 'AOEpeople.mpmd'
 #
-#  - repo: 'https://github.com/fruitcakestudio/magerun-modman.git'
-#    dest: 'fruitcakestudio.magerun-modman'
+#  - repo: 'https://github.com/fruitcake/magerun-modman.git'
+#    dest: 'fruitcake.magerun-modman'
 #
 #  - repo: 'https://github.com/tschifftner/magerun-addons.git'
 #    dest: 'tschifftner.magerun-addons'
