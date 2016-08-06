@@ -11,6 +11,7 @@
     url: '{{ item.url }}'
     checksum: '{{ item.checksum | default(omit) }}'
     dest: '{{ item.dest }}'
+    validate_certs: no
   when: item.install is not defined or (item.install is defined and item.install == true)
   with_items: '{{ n98_magerun_files }}'
 
