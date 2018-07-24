@@ -1,59 +1,54 @@
 ---
-sudo: required
-dist: trusty
-
-language: python
-python: "2.7"
+services: docker
 
 env:
-  - SITE=test-version1.yml ANSIBLE_VERSION=latest MAGERUN='n98-magerun'
-  - SITE=test-version1.yml ANSIBLE_VERSION=2.1.0.0 MAGERUN='n98-magerun'
+#  - distro: centos7
+#  - distro: centos6
+#  - distro: fedora27
+#  - distro: ubuntu1604
+#  - distro: ubuntu1404
+#  - distro: ubuntu1204
 
-  - SITE=test-version2.yml ANSIBLE_VERSION=latest MAGERUN='n98-magerun2'
-  - SITE=test-version2.yml ANSIBLE_VERSION=2.1.0.0 MAGERUN='n98-magerun2'
-
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y curl php5
-  - pip install --upgrade pip
-
-install:
-  # Install Ansible.
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install --no-binary ansible ansible; else pip install --no-binary ansible ansible==$ANSIBLE_VERSION; fi
-
-  # Add ansible.cfg to pick up roles path.
-  - "{ echo '[defaults]'; echo 'roles_path = ../'; } >> ansible.cfg"
-
-  # Install ansible-lint
-  - pip install ansible-lint
+  - distro: debian9
+  - distro: debian8
+  - distro: ubuntu1804
+  - distro: ubuntu1604
 
 script:
-  # Check the role/playbook's syntax.
-  - "ansible-playbook -i tests/inventory tests/$SITE --syntax-check"
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+  - export DOCKER="docker exec --tty ${container_id} env TERM=xterm"
 
-  # Run the role/playbook with ansible-playbook.
-  - "ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo"
+  # Download test shim.
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/tschifftner/4078cf2a8429d967d5e100649ff2caa9/raw/
+  - chmod +x ${PWD}/tests/test.sh
 
-  # Run the role/playbook again, checking to make sure it's idempotent.
-  - >
-    ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
-    | grep -q 'changed=0.*failed=0'
-    && (echo 'Idempotence test: pass' && exit 0)
-    || (echo 'Idempotence test: fail' && exit 1)
+  # Run tests.
+  - ${PWD}/tests/test.sh
 
-  # ansible-lint checks for best practice
-  - ansible-lint tests/$SITE
+  # Check
+  - ${DOCKER} /usr/local/bin/n98-magerun --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2 --version
+  - ${DOCKER} /usr/local/bin/n98-magerun-latest --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2-latest --version
 
-  # Make sure n98-magerun is installed.
-  - >
-    $MAGERUN --version
-    && (echo "$MAGERUN is installed" && exit 0)
-    || (echo "$MAGERUN is not installed" && exit 1)
+  # Check default repositories
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/AOEpeople.mpmd/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/aleron75.Webgriffe_Golive/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/cmuench.magerun-addons/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/fruitcake.magerun-modman/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/hypernode.hypernode-magerun/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/kalenjordan.magerun-addons/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/peterjaap.magerun-addons/n98-magerun.yaml
+  - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/tschifftner.magerun-addons/n98-magerun.yaml
 
 after_failure:
-  - ansible-playbook -i tests/inventory tests/$SITE --connection=local --sudo
-  - $MAGERUN --version
-  - ansible --version
+  - ${DOCKER} /usr/local/bin/n98-magerun --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2 --version
+  - ${DOCKER} /usr/local/bin/n98-magerun-latest --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2-latest --version
+
 
 notifications:
   slack: ambimax:2MlPTX9bY9aPxCPhJGxHKIT6
