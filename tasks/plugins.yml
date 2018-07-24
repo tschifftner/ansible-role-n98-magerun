@@ -12,6 +12,14 @@
     group: root
     mode: 0755
 
+- name: Install default repositories
+  git:
+    repo: '{{ item.repo }}'
+    dest: '{{ n98_magerun_plugin_dir }}/{{ item.dest }}'
+    version: '{{ item.version | default(omit) }}'
+  with_items: '{{ n98_magerun_plugin_default_repositories }}'
+  when: n98_magerun_install_default_repositories
+
 - name: Install plugins
   git:
     repo: '{{ item.repo }}'

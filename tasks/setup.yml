@@ -6,12 +6,17 @@
 #  when: item.install is not defined or (item.install is defined and item.install == true)
 #  with_items: '{{ n98_magerun_files }}'
 
+- name: Ensure cron is present
+  apt:
+    pkg: cron
+    cache_valid_time: 86400
+
 - name: Download and install n98-magerun
   get_url:
     url: '{{ item.url }}'
     checksum: '{{ item.checksum | default(omit) }}'
     dest: '{{ item.dest }}'
-    validate_certs: no
+    validate_certs: "{{ item.validate_certs | default('no') }}"
   when: item.install is not defined or (item.install is defined and item.install == true)
   with_items: '{{ n98_magerun_files }}'
 

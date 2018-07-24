@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  vars:
+    n98_magerun_install_default_repositories: true
+
+    # Use older versions for testing so checksums do not change
+    n98_magerun_files:
+      - name: 'n98-magerun for Magento 1'
+        url: 'https://files.magerun.net/n98-magerun-1.100.0.phar'
+        checksum: 'sha256:9df3a015dd2efc8f7a3f90c1c3934f0241e8db350028690f2a4f3d9ed5ead047'
+        install: true
+        dest: '/usr/local/bin/n98-magerun'
+
+      - name: 'n98-magerun for Magento 2'
+        url: 'https://files.magerun.net/n98-magerun2-2.2.0.phar'
+        checksum: 'sha256:8b2739eca75c888dc9d1d74c90195988a2394e4d4970051a3f99769f229f91b5'
+        dest: '/usr/local/bin/n98-magerun2'
+
+      - name: 'n98-magerun for Magento 1'
+        url: 'https://files.magerun.net/n98-magerun-latest.phar'
+        install: true
+        dest: '/usr/local/bin/n98-magerun-latest'
+
+      - name: 'n98-magerun2 for Magento 2'
+        url: 'https://files.magerun.net/n98-magerun2-latest.phar'
+        install: true
+        dest: '/usr/local/bin/n98-magerun2-latest'
+
+  roles:
+    - role_under_test

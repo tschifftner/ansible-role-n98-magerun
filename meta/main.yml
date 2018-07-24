@@ -6,15 +6,17 @@ galaxy_info:
   description: Installs n98-magerun/n98-magerun2 on Debian/Ubuntu linux servers. PHP is required for n98-magerun to function!
   company: ambimax® GmbH
   license: MIT
-  min_ansible_version: 2.0
+  role_name: n98-magerun
+  min_ansible_version: 2.5
   platforms:
   - name: Debian
     versions:
     - jessie
+    - stretch
   - name: Ubuntu
     versions:
-    - precise
-    - trusty
+    - xenial
+    - bionic
   galaxy_tags:
     - ubuntu
     - debian

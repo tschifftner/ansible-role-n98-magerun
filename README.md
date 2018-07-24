@@ -1,6 +1,6 @@
 # Ansible Role: Install n98-magerun
 
-[![Build Status](https://travis-ci.org/tschifftner/ansible-role-n98-magerun.svg)](https://travis-ci.org/tschifftner/ansible-role-n98-magerun)
+[![Build Status](https://travis-ci.org/tschifftner/ansible-role-n98-magerun.svg?branch=master)](https://travis-ci.org/tschifftner/ansible-role-n98-magerun)
 
 Installs [n98-magerun](https://github.com/netz98/n98-magerun) / [n98-magerun2](https://github.com/netz98/n98-magerun2) on Debian/Ubuntu linux servers.
 
@@ -9,7 +9,6 @@ The n98 magerun cli tools provides some handy tools to work with Magento from co
 ## Requirements
 
 PHP must be installed for n98-magerun to function!
-ansible 2.0+
 
 ## Role Variables
 
@@ -37,7 +36,11 @@ Checksum is not required but highly recommended for security reasons!
 Plugins can be installed globally as well. Be careful who you trust!
 
 ```
-n98_magerun_plugin_repositories:
+# This will install the below plugins automatically
+n98_magerun_install_default_repositories: true
+
+
+n98_magerun_plugin_default_repositories:
   - repo: 'https://github.com/cmuench/cmuench-magerun-addons.git'
     dest: 'cmuench.magerun-addons'
 
@@ -58,6 +61,9 @@ n98_magerun_plugin_repositories:
 
   - repo: 'https://github.com/tschifftner/magerun-addons.git'
     dest: 'tschifftner.magerun-addons'
+    
+ # Define your own repositories
+ n98_magerun_plugin_repositories: []
 ```
 
 ## Dependencies
@@ -77,11 +83,15 @@ $ ansible-galaxy install tschifftner.n98-magerun
         - { role: tschifftner.n98-magerun }
 
 ## Supported OS
-## Supported OS
-Ansible          | Debian Jessie    | Ubuntu 14.04    | Ubuntu 12.04
-:--------------: | :--------------: | :-------------: | :-------------: 
-2.0              | Yes              | Yes             | Yes
 
+ - Debian 9 (Stretch)
+ - Debian 8 (Jessie)
+ - Ubuntu 18.04 (Bionic Beaver)
+ - Ubuntu 16.04 (Xenial Xerus)
+ 
+## Required ansible version
+
+Ansible 2.5+
 
 ## License
 
