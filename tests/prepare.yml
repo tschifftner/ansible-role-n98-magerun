@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  remote_user: root
+
+  roles:
+    - tschifftner.sury
+
+  post_tasks:
+    - name: Install php cli
+      apt:
+        pkg: php7.1

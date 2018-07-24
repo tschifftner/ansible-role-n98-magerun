@@ -44,7 +44,10 @@ script:
   - ${DOCKER} test -e /usr/local/share/n98-magerun/modules/tschifftner.magerun-addons/n98-magerun.yaml
 
 after_failure:
-  - ${DOCKER} modman --version
+  - ${DOCKER} /usr/local/bin/n98-magerun --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2 --version
+  - ${DOCKER} /usr/local/bin/n98-magerun-latest --version
+  - ${DOCKER} /usr/local/bin/n98-magerun2-latest --version
 
 
 notifications:
